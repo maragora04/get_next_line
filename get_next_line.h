@@ -6,16 +6,16 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:26 by mamendes          #+#    #+#             */
-/*   Updated: 2026/05/24 00:25:20 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/05/25 16:47:20 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-/* # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
-# endif */ //why this no work
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 3
+# endif
 
 # include <limits.h>
 # include <unistd.h>
@@ -25,7 +25,10 @@
 # include <ctype.h>
 # include <stdint.h>
 
-char *get_next_line(int fd);
-
+char	*get_next_line(int fd);
+char	*ft_linejoin(const char  *s1, const char *s2);
+size_t	line_size(const char *buffer);
+char	*newlinechr(const char *s, int n);
+int		isnewline(char *line);
 
 #endif
