@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:26 by mamendes          #+#    #+#             */
-/*   Updated: 2026/05/25 16:47:20 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:15:04 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 char	*get_next_line(int fd);
 char	*ft_linejoin(const char  *s1, const char *s2);
 size_t	line_size(const char *buffer);
-char	*newlinechr(const char *s, int n);
-int		isnewline(char *line);
+char	*isnewline(const char *s, int n);
+int		newlinebuf(char *line);
 
 #endif

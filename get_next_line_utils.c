@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:16 by mamendes          #+#    #+#             */
-/*   Updated: 2026/05/25 16:56:37 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:13:40 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_linejoin(const char  *s1, const char *s2)
 	return (result);
 }
 
-char *newlinechr(const char *s, int n)
+char *isnewline(const char *s, int n)
 {
 	int i;
 
@@ -70,22 +70,21 @@ char *newlinechr(const char *s, int n)
 	return(NULL);
 }
 
-int isnewline(char *line)
+int newlinebuf(char *line)
 {
 	int i;
 	int k;
 	int check;
 
 	i = 0;
+	check = 0;
+	k = 0;
 	while(line[i])
 	{
-		if(line[i] != '\n')
-			check = 0;
 		if(line[i] == '\n')
-			{
 				check = 1;
-				line[k++] = line[i];
-			}
+		if(check == 1)
+			line[k++] = line[i];
 		line[i] = 0;
 		i++;
 	}
