@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:26 by mamendes          #+#    #+#             */
-/*   Updated: 2026/05/26 17:15:04 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/05/29 19:13:51 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 3
+#  define BUFFER_SIZE 1
 # endif
 
 # include <limits.h>
@@ -24,11 +24,12 @@
 # include <string.h>
 # include <ctype.h>
 # include <stdint.h>
+#include <fcntl.h>
 
 char	*get_next_line(int fd);
-char	*ft_linejoin(const char  *s1, const char *s2);
+char	*ft_linejoin(char  *s1, char *s2);
 size_t	line_size(const char *buffer);
-char	*isnewline(const char *s, int n);
+char	*isnewline(const char *s);
 int		newlinebuf(char *line);
 
 #endif

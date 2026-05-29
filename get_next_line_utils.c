@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:16 by mamendes          #+#    #+#             */
-/*   Updated: 2026/05/29 13:50:20 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/05/29 18:31:32 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ size_t	line_size(const char *buffer)
 	return (i);
 }
 
-char	*ft_linejoin(const char  *s1, const char *s2)
+char	*ft_linejoin(char  *s1, char *s2)
 {
 	size_t	total_len;
 	char	*result;
@@ -41,31 +41,32 @@ char	*ft_linejoin(const char  *s1, const char *s2)
 	k = 0;
 	if (result == NULL)
 		return (NULL);
-	while(s1[i] != '\0' && s1 != NULL)
+	while(s1 != NULL && s1[i] != '\0')
 		result[k++] = s1[i++];
-	k = 0;
-	while(s2[k] != '\0' && s2 != NULL)
+	i = 0;
+	while(s2 != NULL && s2[i] != '\0')
 	{
 		result[k++] = s2[i];
 		if(s2[i++] == '\n')
 			break;
 	}
 	result[k] = '\0';
+	free(s1);
 	return (result);
 }
 
-char *isnewline(const char *s, int n)
+char *isnewline(const char *s)
 {
 	int i;
 
 	i = 0;
 	while(s[i])
 	{
-		if(s[i] == (char)n)
+		if(s[i] == '\n')
 			return((char *)(s) + i);
 		i++;
 	}
-	if(s[i] == (char)n)
+	if(s[i] == '\n')
 		return((char *)(s) + i);
 	return(NULL);
 }
@@ -80,11 +81,11 @@ int newlinebuf(char *line)
     k = 0;
     check = 0;
     while (line[i])
-    {
-        if (line[i] == '\n')
-            check = 1;    
+    {   
         if (check == 1)
             line[k++] = line[i];
+		if (line[i] == '\n')
+            check = 1; 
         i++;
     }
     while (k <= i)
