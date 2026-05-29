@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:16 by mamendes          #+#    #+#             */
-/*   Updated: 2026/05/26 17:13:40 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/05/29 13:50:20 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t	line_size(const char *buffer)
 
 	i = 0;
 	if(!buffer)
-		return (NULL);
+		return (0);
 	while(buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
 	if(buffer[i] == '\n')
@@ -42,12 +42,12 @@ char	*ft_linejoin(const char  *s1, const char *s2)
 	if (result == NULL)
 		return (NULL);
 	while(s1[i] != '\0' && s1 != NULL)
-		result[k++] = s1[i];
+		result[k++] = s1[i++];
 	k = 0;
 	while(s2[k] != '\0' && s2 != NULL)
 	{
 		result[k++] = s2[i];
-		if(s2 == '\n')
+		if(s2[i++] == '\n')
 			break;
 	}
 	result[k] = '\0';
@@ -72,21 +72,22 @@ char *isnewline(const char *s, int n)
 
 int newlinebuf(char *line)
 {
-	int i;
-	int k;
-	int check;
+    int i;
+    int k;
+    int check;
 
-	i = 0;
-	check = 0;
-	k = 0;
-	while(line[i])
-	{
-		if(line[i] == '\n')
-				check = 1;
-		if(check == 1)
-			line[k++] = line[i];
-		line[i] = 0;
-		i++;
-	}
-	return(check);
+    i = 0;
+    k = 0;
+    check = 0;
+    while (line[i])
+    {
+        if (line[i] == '\n')
+            check = 1;    
+        if (check == 1)
+            line[k++] = line[i];
+        i++;
+    }
+    while (k <= i)
+        line[k++] = 0;
+    return (check);
 }
