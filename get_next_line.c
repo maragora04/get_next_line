@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:23 by mamendes          #+#    #+#             */
-/*   Updated: 2026/06/01 14:55:08 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/06/01 15:02:18 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char *get_next_line(int fd)
 	while (1)
 	{
 	if (buffer[0] != '\0')
-			if(beeline(line, buffer, fd))
+			if(beeline(line, buffer))
 				return(line);
 		bytesread = read(fd, buffer, BUFFER_SIZE);
 		if (bytesread < 0)
@@ -39,31 +39,31 @@ char *get_next_line(int fd)
 	return (line);
 }
 
-/* int main()
+int main()
 {
 	int fd1 = open("test1", O_RDONLY);
-	int fd2 = open("test2", O_RDONLY);
-	int fd3 = open("test3",  O_RDONLY);
-		char *str1;
-	char *str2;
-	char *str3;
+	// int fd2 = open("test2", O_RDONLY);
+	// int fd3 = open("test3",  O_RDONLY);
+	char *str1;
+	// char *str2;
+	// char *str3;
 	str1 = get_next_line(fd1);
-	str2 = get_next_line(fd2);
-	str3 = get_next_line(fd3);
+	// str2 = get_next_line(fd2);
+	// str3 = get_next_line(fd3);
 	while (str1)
 	{
 		printf("%s", str1);
 		free(str1);
-		printf("%s", str2);
-		free(str2);
-		printf("%s", str3);
-		free(str3);
+		// printf("%s", str2);
+		// free(str2);
+		// printf("%s", str3);
+		// free(str3);
 		str1 = get_next_line(fd1);
-		str2 = get_next_line(fd2);
-		str3 = get_next_line(fd3);
+		// str2 = get_next_line(fd2);
+		// str3 = get_next_line(fd3);
 	}
 	close(fd1);
-	close(fd2);
-	close(fd3);
+	// close(fd2);
+	// close(fd3);
 	return 0;
-} */
+}

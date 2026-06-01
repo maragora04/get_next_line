@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 13:59:54 by mamendes          #+#    #+#             */
-/*   Updated: 2026/06/01 14:54:53 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/06/01 14:59:03 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char *get_next_line(int fd)
 	}
 	return (line);
 }
-/* int main()
+int main()
 {
 	int fd1 = open("test1", O_RDONLY);
 	int fd2 = open("test2", O_RDONLY);
@@ -65,4 +65,4 @@ char *get_next_line(int fd)
 	close(fd2);
 	close(fd3);
 	return 0;
-} */
+}
