@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 14:02:39 by mamendes          #+#    #+#             */
-/*   Updated: 2026/06/01 14:49:42 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/06/01 15:22:06 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 size_t	line_size(const char *buffer)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-	if(!buffer)
+	if (!buffer)
 		return (0);
-	while(buffer[i] != '\n' && buffer[i] != '\0')
+	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
-	if(buffer[i] == '\n')
+	if (buffer[i] == '\n')
 		i++;
 	return (i);
 }
 
-char	*ft_linejoin(char  *s1, char *s2)
+char	*ft_linejoin(char *s1, char *s2)
 {
 	size_t	total_len;
 	char	*result;
-	int	i;
-	int k;
+	int		i;
+	int		k;
 
 	if (!s1 && !s2)
 		return (NULL);
@@ -41,58 +41,59 @@ char	*ft_linejoin(char  *s1, char *s2)
 	k = 0;
 	if (result == NULL)
 		return (NULL);
-	while(s1 != NULL && s1[i] != '\0')
+	while (s1 != NULL && s1[i] != '\0')
 		result[k++] = s1[i++];
 	i = 0;
-	while(s2 != NULL && s2[i] != '\0')
+	while (s2 != NULL && s2[i] != '\0')
 	{
 		result[k++] = s2[i];
-		if(s2[i++] == '\n')
-			break;
+		if (s2[i++] == '\n')
+			break ;
 	}
 	result[k] = '\0';
 	free(s1);
 	return (result);
 }
 
-char *isnewline(const char *s)
+char	*isnewline(const char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
-		if(s[i] == '\n')
-			return((char *)(s) + i);
+		if (s[i] == '\n')
+			return ((char *)(s) + i);
 		i++;
 	}
-	if(s[i] == '\n')
-		return((char *)(s) + i);
-	return(NULL);
+	if (s[i] == '\n')
+		return ((char *)(s) + i);
+	return (NULL);
 }
 
-int newlinebuf(char *line)
+int	newlinebuf(char *line)
 {
-    int i;
-    int k;
-    int check;
+	int	i;
+	int	k;
+	int	check;
 
-    i = 0;
-    k = 0;
-    check = 0;
-    while (line[i])
-    {   
-        if (check == 1)
-            line[k++] = line[i];
+	i = 0;
+	k = 0;
+	check = 0;
+	while (line[i])
+	{
+		if (check == 1)
+			line[k++] = line[i];
 		if (line[i] == '\n')
-            check = 1; 
-        i++;
-    }
-    while (k <= i)
-        line[k++] = 0;
-    return (check);
+			check = 1;
+		i++;
+	}
+	while (k <= i)
+		line[k++] = 0;
+	return (check);
 }
-char *beeline(char *line, char *buffer)
+
+char	*beeline(char *line, char *buffer)
 {
 	if (buffer[0] != '\0')
 	{
@@ -101,5 +102,5 @@ char *beeline(char *line, char *buffer)
 		if (isnewline(line))
 			return (line);
 	}
-	return(NULL);
+	return (NULL);
 }

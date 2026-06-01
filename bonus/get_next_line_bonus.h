@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 14:03:00 by mamendes          #+#    #+#             */
-/*   Updated: 2026/06/01 15:04:38 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/06/01 15:22:35 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 # include <string.h>
 # include <ctype.h>
 # include <stdint.h>
-#include <fcntl.h>
+# include <fcntl.h>
 
 char	*get_next_line(int fd);
-char	*ft_linejoin(char  *s1, char *s2);
+char	*ft_linejoin(char *s1, char *s2);
 size_t	line_size(const char *buffer);
 char	*isnewline(const char *s);
 int		newlinebuf(char *line);
