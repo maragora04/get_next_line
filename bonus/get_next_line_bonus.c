@@ -1,44 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/23 18:16:23 by mamendes          #+#    #+#             */
-/*   Updated: 2026/06/01 14:55:08 by mamendes         ###   ########.fr       */
+/*   Created: 2026/06/01 13:59:54 by mamendes          #+#    #+#             */
+/*   Updated: 2026/06/01 14:54:53 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char *get_next_line(int fd)
 {
 	int         bytesread;
-	static char buffer[BUFFER_SIZE + 1];
+	static char buffer[FOPEN_MAX][BUFFER_SIZE + 1];
 	char        *line;
 
 	line = NULL;
 	while (1)
 	{
-	if (buffer[0] != '\0')
-			if(beeline(line, buffer, fd))
+		if (buffer[fd][0] != '\0')
+			if(beeline(line, buffer[fd]))
 				return(line);
-		bytesread = read(fd, buffer, BUFFER_SIZE);
+		bytesread = read(fd, buffer[fd], BUFFER_SIZE);
 		if (bytesread < 0)
 			return (free(line), NULL);
 		if (bytesread == 0)
-			return (newlinebuf(buffer), line);
-		buffer[bytesread] = '\0';
-		line = ft_linejoin(line, buffer);
+			return (newlinebuf(buffer[fd]), line);
+		buffer[fd][bytesread] = '\0';
+		line = ft_linejoin(line, buffer[fd]);
 		if (!line)
 			return (NULL);
-		if (newlinebuf(buffer))
+		if (newlinebuf(buffer[fd]))
 			break ;
 	}
 	return (line);
 }
-
 /* int main()
 {
 	int fd1 = open("test1", O_RDONLY);

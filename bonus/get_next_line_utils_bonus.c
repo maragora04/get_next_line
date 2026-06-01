@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/23 18:16:16 by mamendes          #+#    #+#             */
-/*   Updated: 2026/06/01 14:35:47 by mamendes         ###   ########.fr       */
+/*   Created: 2026/06/01 14:02:39 by mamendes          #+#    #+#             */
+/*   Updated: 2026/06/01 14:49:42 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	line_size(const char *buffer)
 {
@@ -92,13 +92,12 @@ int newlinebuf(char *line)
         line[k++] = 0;
     return (check);
 }
-
-char *beeline(char *line, char **buffer, int fd)
+char *beeline(char *line, char *buffer)
 {
-	if (buffer[fd][0] != '\0')
+	if (buffer[0] != '\0')
 	{
-		line = ft_linejoin(line, buffer[fd]);
-		newlinebuf(buffer[fd]);
+		line = ft_linejoin(line, buffer);
+		newlinebuf(buffer);
 		if (isnewline(line))
 			return (line);
 	}
