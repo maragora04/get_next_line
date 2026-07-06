@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:16 by mamendes          #+#    #+#             */
-/*   Updated: 2026/06/01 15:23:23 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/07/06 18:05:55 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_linejoin(char *s1, char *s2)
 	i = 0;
 	k = 0;
 	if (result == NULL)
-		return (NULL);
+		return (free(s1), NULL);
 	while (s1 != NULL && s1[i] != '\0')
 		result[k++] = s1[i++];
 	i = 0;
@@ -93,14 +93,12 @@ int	newlinebuf(char *line)
 	return (check);
 }
 
-char	*beeline(char *line, char *buffer)
+char *beeline(char *line, char *buffer)
 {
 	if (buffer[0] != '\0')
 	{
 		line = ft_linejoin(line, buffer);
 		newlinebuf(buffer);
-		if (isnewline(line))
-			return (line);
 	}
-	return (NULL);
+	return (line);
 }
