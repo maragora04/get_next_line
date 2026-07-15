@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:23 by mamendes          #+#    #+#             */
-/*   Updated: 2026/07/15 08:58:07 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/07/15 09:52:58 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,6 @@ char	*get_next_line(int fd)
 	str1 = get_next_line(fd1);
 	printf("%s", str1);
 	free(str1);
-	// str1 = get_next_line(fd1);
-	// printf("%s", str1);
-	// free(str1);
-	// str1 = get_next_line(fd1);
-	// printf("%s", str1);
-	// free(str1);
-	close(fd1);
-	return 0;
-} */
-/* int main()
-{
-	int fd1 = open("test1", O_RDONLY);
-	char *str1;
-	str1 = get_next_line(fd1);
-	while (str1)
-	{
-		printf("%s", str1);
-		free(str1);
-		str1 = get_next_line(fd1);
-	}
 	close(fd1);
 	return 0;
 } */

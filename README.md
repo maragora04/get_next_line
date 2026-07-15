@@ -29,28 +29,47 @@ The core challenge of `get_next_line` is that a single `read()` call may fetch m
 ### Step-by-step logic
 
 ```
-┌───────────────────────────────────────────────────────────────────────┐
-│                         get_next_line(fd)                             │
-│                                                                       │
-│  1. Check if the static buffer already holds data from a prior read   │
-│     └─► If so, call beeline() to try building a complete line from it │
-│         └─► If a '\n' is found → return the line immediately          │
-│                                                                       │
-│  2. Call read() to fetch up to BUFFER_SIZE bytes from fd              │
-│     ├─► bytesread < 0  → free line, return NULL (error)               │
-│     └─► bytesread == 0 → flush buffer, return line as-is (EOF)        │
-│                                                                       │
-│  3. Append buffer content to the growing line via ft_linejoin()       │
-│     └─► ft_linejoin copies s1 + s2 up to and including the first '\n' │
-│                                                                       │
-│  4. Call newlinebuf() on the static buffer                            │
-│     └─► Shifts any bytes after the '\n' to the front of the buffer    │
-│         so they are available on the next call                        │
-│                                                                       │
-│  5. If a '\n' was found → break and return the line                   │
-│     Otherwise → loop back to step 2                                   │
-└───────────────────────────────────────────────────────────────────────┘
++-----------------------------------------+
+          |           get_next_line(fd)             |
+          +-------------------+---------------------+
+                              |
+               [Does Static Buffer have data?]
+                /                         \
+             YES                           NO
+             /                               \
+
++-------------v-------------+            +------v------+
+| Extracted with beeline()  |            | read() new  |
+|   and checked for '\n'    |            |    chunk    |
++-------------+-------------+            +------+------+
+|                                 |
+[Found '\n'?]                     [Join & clean]
+/         \                             |
+YES           NO                     [Found '\n'?]
+/               \                     /
+
++---v----+       +----v-------------------v-+       +-v----+
+| Return |       | Call read_and_join()     |       | Return|
+|  line  |       | until '\n' or EOF is hit |       | line |
++--------+       +--------------------------+       +------+
 ```
+The algorithm is divided into logical, modular components to ensure dry and clean execution:
+
+### 1. Persistent Buffer & Shifting Strategy
+Instead of re-allocating or creating complex circular queues, we maintain a single static string array `static char buffer[BUFFER_SIZE + 1]`. 
+* **`newlinebuf`**: This helper function processes the buffer once a line segment is extracted. It locates the newline character, shifts all trailing characters to the front of the array (at index `0`), and null-terminates the remaining indices to clear out processed data. This guarantees that no leftover garbage is carried over to subsequent calls.
+
+### 2. Precise Allocation via Custom Joining
+* **`line_size`**: Determines the number of bytes up to (and including) the first `\\n` or `\\0`.
+* **`ft_linejoin`**: A custom allocation and concatenation function. It computes the exact required space for the new string using `line_size`, copies the existing line plus the safe chunk from the buffer, and frees the previously allocated line to prevent memory leaks.
+
+### 3. State Management with a Flag Link
+To coordinate communication between the core loop in `get_next_line` and the system reading helper `read_and_join`, we pass a control variable `flag` by reference.
+* `flag = 0`: Normal iteration; continue looking for a line or reading more bytes.
+* `flag = 1`: Successfully hit EOF or a newline; break the loop and return the accumulated string.
+* `flag = 2`: Read error (`bytesread < 0`) or critical allocation failure; completely clear the static buffer, free resources, and safely abort.
+
+---
 
 ### Helper functions
 
@@ -92,10 +111,9 @@ get_next_line/
 ├── get_next_line.c           # Main function (single fd)
 ├── get_next_line.h           # Header
 ├── get_next_line_utils.c     # Helper functions
-└── bonus/
-    ├── get_next_line_bonus.c          # Main function (multiple fds)
-    ├── get_next_line_bonus.h          # Header
-    └── get_next_line_utils_bonus.c    # Helper functions
+├── get_next_line_bonus.c          # Main function (multiple fds)
+├── get_next_line_bonus.h          # Header
+└── get_next_line_utils_bonus.c    # Helper functions
 ```
 
 ### Compilation
@@ -112,7 +130,7 @@ cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 bonus/get_next_line_bonus.c bonus/get_next_line_utils_bonus.c -o gnl_bonus
 ```
 
-> If `BUFFER_SIZE` is not specified, the default value of `1` defined in the header will be used.
+> If `BUFFER_SIZE` is not specified, the default value defined in the header will be used.
 
 ### Using `get_next_line` in your own project
 
@@ -123,19 +141,13 @@ Include the relevant files and header in your project, then call the function as
 
 int main()
 {
-    int     fd;
-    char    *line;
-
-    fd = open("file.txt", O_RDONLY);
-    if (fd < 0)
-        return (1);
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("%s", line);
-        free(line);         // Always free the returned line
-    }
-    close(fd);
-    return (0);
+	int fd = open("test.txt", O_RDONLY);
+	char *str;
+	str = get_next_line(fd);
+	printf("%s", str);
+	free(str);
+	close(fd);
+	return 0;
 }
 ```
 
