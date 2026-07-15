@@ -6,7 +6,7 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:16 by mamendes          #+#    #+#             */
-/*   Updated: 2026/07/06 18:05:55 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/07/15 08:58:18 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	newlinebuf(char *line)
 	return (check);
 }
 
-char *beeline(char *line, char *buffer)
+char	*beeline(char *line, char *buffer)
 {
 	if (buffer[0] != '\0')
 	{

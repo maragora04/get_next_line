@@ -6,36 +6,38 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 18:16:23 by mamendes          #+#    #+#             */
-/*   Updated: 2026/07/06 18:51:52 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/07/15 08:58:07 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*read_and_join(int fd, char *line, char *buffer, int *done)
+static char	*read_and_join(int fd, char *line, char *buffer, int *flag)
 {
-	int bytesread;
+	int	bytesread;
 
 	bytesread = read(fd, buffer, BUFFER_SIZE);
 	if (bytesread < 0)
 	{
-		*done = 2;
+		*flag = 2;
+		buffer[0] = '\0';
 		return (free(line), NULL);
 	}
 	if (bytesread == 0)
 	{
-		*done = 1;
-		return (newlinebuf(buffer), line);
+		*flag = 1;
+		buffer[0] = '\0';
+		return (line);
 	}
 	buffer[bytesread] = '\0';
 	line = ft_linejoin(line, buffer);
 	if (!line)
 	{
-		*done = 2;
+		*flag = 2;
 		return (NULL);
 	}
 	if (newlinebuf(buffer))
-		*done = 1;
+		*flag = 1;
 	return (line);
 }
 
@@ -43,11 +45,13 @@ char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
 	char		*line;
-	int			done;
+	int			flag;
 
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	line = NULL;
-	done = 0;
-	while (!done)
+	flag = 0;
+	while (!flag)
 	{
 		if (buffer[0] != '\0')
 		{
@@ -57,8 +61,8 @@ char	*get_next_line(int fd)
 			if (isnewline(line))
 				return (line);
 		}
-		line = read_and_join(fd, line, buffer, &done);
-		if (done == 2)
+		line = read_and_join(fd, line, buffer, &flag);
+		if (flag == 2)
 			return (NULL);
 	}
 	return (line);

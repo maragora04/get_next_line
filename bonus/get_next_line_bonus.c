@@ -6,35 +6,64 @@
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 13:59:54 by mamendes          #+#    #+#             */
-/*   Updated: 2026/06/01 15:20:32 by mamendes         ###   ########.fr       */
+/*   Updated: 2026/07/15 08:57:46 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
+static char	*read_and_join(int fd, char *line, char *buffer, int *done)
+{
+	int	bytesread;
+
+	bytesread = read(fd, buffer, BUFFER_SIZE);
+	if (bytesread < 0)
+	{
+		*done = 2;
+		buffer[0] = '\0';
+		return (free(line), NULL);
+	}
+	if (bytesread == 0)
+	{
+		*done = 1;
+		buffer[0] = '\0';
+		return (line);
+	}
+	buffer[bytesread] = '\0';
+	line = ft_linejoin(line, buffer);
+	if (!line)
+	{
+		*done = 2;
+		return (NULL);
+	}
+	if (newlinebuf(buffer))
+		*done = 1;
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
-	int			bytesread;
 	static char	buffer[FOPEN_MAX][BUFFER_SIZE + 1];
 	char		*line;
+	int			done;
 
+	if (fd < 0 || fd >= FOPEN_MAX || BUFFER_SIZE <= 0)
+		return (NULL);
 	line = NULL;
-	while (1)
+	done = 0;
+	while (!done)
 	{
 		if (buffer[fd][0] != '\0')
-			if (beeline(line, buffer[fd]))
+		{
+			line = beeline(line, buffer[fd]);
+			if (!line)
+				return (NULL);
+			if (isnewline(line))
 				return (line);
-		bytesread = read(fd, buffer[fd], BUFFER_SIZE);
-		if (bytesread < 0)
-			return (free(line), NULL);
-		if (bytesread == 0)
-			return (newlinebuf(buffer[fd]), line);
-		buffer[fd][bytesread] = '\0';
-		line = ft_linejoin(line, buffer[fd]);
-		if (!line)
+		}
+		line = read_and_join(fd, line, buffer[fd], &done);
+		if (done == 2)
 			return (NULL);
-		if (newlinebuf(buffer[fd]))
-			break ;
 	}
 	return (line);
 }
@@ -52,24 +81,22 @@ char	*get_next_line(int fd)
 	str2 = get_next_line(fd2);
 	str3 = get_next_line(fd3);
 	str4 = get_next_line(fd4);
-	while (str1)
-	{
-		printf("%s", str1);
-		free(str1);
-		printf("%s", str2);
-		free(str2);
-		printf("%s", str3);
-		free(str3);
-		printf("%s", str4);
-		free(str4);
-		str1 = get_next_line(fd1);
-		str2 = get_next_line(fd2);
-		str3 = get_next_line(fd3);
-		str4 = get_next_line(fd4);
-	}
+	
+	printf("%s", str1);
+	free(str1);
+	printf("%s", str2);
+	free(str2);
+	printf("%s", str3);
+	free(str3);
+	printf("%s", str4);
+	free(str4);
+	str1 = get_next_line(fd1);
+	str2 = get_next_line(fd2);
+	str3 = get_next_line(fd3);
+	str4 = get_next_line(fd4);
 	close(fd1);
 	close(fd2);
 	close(fd3);
 	close(fd4);
 	return 0;
-} */
+}  */
