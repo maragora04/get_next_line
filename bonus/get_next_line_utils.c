@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/01 14:02:39 by mamendes          #+#    #+#             */
-/*   Updated: 2026/07/15 12:24:45 by mamendes         ###   ########.fr       */
+/*   Created: 2026/05/23 18:16:16 by mamendes          #+#    #+#             */
+/*   Updated: 2026/07/15 12:25:05 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 size_t	line_size(const char *buffer)
 {

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamendes <mamendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/01 13:59:54 by mamendes          #+#    #+#             */
-/*   Updated: 2026/07/15 12:31:50 by mamendes         ###   ########.fr       */
+/*   Created: 2026/05/23 18:16:23 by mamendes          #+#    #+#             */
+/*   Updated: 2026/07/15 12:33:38 by mamendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 int	line_append(t_line *l, char *chunk)
 {
@@ -68,11 +68,11 @@ char	*beeline(t_line *l, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[FOPEN_MAX][BUFFER_SIZE + 1];
+	static char	buffer[BUFFER_SIZE + 1];
 	t_line		l;
 	int			flag;
 
-	if (fd < 0 || fd >= FOPEN_MAX || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	l.str = NULL;
 	l.len = 0;
@@ -80,49 +80,27 @@ char	*get_next_line(int fd)
 	flag = 0;
 	while (!flag)
 	{
-		if (buffer[fd][0] != '\0')
+		if (buffer[0] != '\0')
 		{
-			if (!beeline(&l, buffer[fd]))
+			if (!beeline(&l, buffer))
 				return (NULL);
 			if (isnewline(l.str))
 				return (l.str);
 		}
-		flag = read_and_join(fd, &l, buffer[fd]);
+		flag = read_and_join(fd, &l, buffer);
 		if (flag == 2)
 			return (NULL);
 	}
 	return (l.str);
 }
+
 /* int main()
 {
 	int fd1 = open("test1", O_RDONLY);
-	int fd2 = open("test2", O_RDONLY);
-	int fd3 = open("test3",  O_RDONLY);
-	int fd4 = open("test4",  O_RDONLY);
 	char *str1;
-	char *str2;
-	char *str3;
-	char *str4;
 	str1 = get_next_line(fd1);
-	str2 = get_next_line(fd2);
-	str3 = get_next_line(fd3);
-	str4 = get_next_line(fd4);
-	
 	printf("%s", str1);
 	free(str1);
-	printf("%s", str2);
-	free(str2);
-	printf("%s", str3);
-	free(str3);
-	printf("%s", str4);
-	free(str4);
-	str1 = get_next_line(fd1);
-	str2 = get_next_line(fd2);
-	str3 = get_next_line(fd3);
-	str4 = get_next_line(fd4);
 	close(fd1);
-	close(fd2);
-	close(fd3);
-	close(fd4);
 	return 0;
-}  */
+} */
